@@ -21,12 +21,9 @@ export class UserService {
     async findAllWithPagination(
         query: GetUsersDto,
     ): Promise<{ data: User[]; page: number; total: number }> {
-        const page = query.page || 1;
-        const limit = query.limit || 10;
-
         const users = await this.userRepository.find({
-            skip: (page - 1) * limit,
-            take: limit,
+            skip: (query.page - 1) * query.limit,
+            take: query.limit,
         });
 
         const total = await this.userRepository.count();
@@ -34,7 +31,7 @@ export class UserService {
         return {
             data: users,
             total: total,
-            page,
+            page: query.page,
         };
     }
 

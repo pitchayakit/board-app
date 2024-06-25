@@ -1,12 +1,3 @@
-import { IsOptional } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { PaginationDto } from '../../pagination/dto/pagination.dto';
 
-export class GetUsersDto {
-    @ApiProperty({ required: false, example: 1 })
-    @IsOptional()
-    page: number;
-
-    @ApiProperty({ required: false, example: 10 })
-    @IsOptional()
-    limit: number;
-}
+export class GetUsersDto extends PaginationDto {}
