@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   Patch,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,6 +19,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.userService.create(createUserDto);
   }
@@ -32,6 +35,7 @@ export class UserController {
   }
 
   @Patch(':id')
+  @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
