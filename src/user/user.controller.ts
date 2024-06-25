@@ -5,6 +5,7 @@ import {
     Post,
     Body,
     Param,
+    Query,
     Delete,
     Patch,
     UsePipes,
@@ -13,6 +14,7 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { GetUsersDto } from './dto/get-users.dto';
 import { ApiTags } from '@nestjs/swagger';
 @ApiTags('users')
 @Controller('users')
@@ -26,8 +28,9 @@ export class UserController {
     }
 
     @Get()
-    findAll() {
-        return this.userService.findAll();
+    @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
+    findAll(@Query() getUsersDto: GetUsersDto) {
+        return this.userService.findAllWithPagination(getUsersDto);
     }
 
     @Get(':id')
