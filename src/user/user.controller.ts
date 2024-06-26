@@ -21,12 +21,6 @@ import { ApiTags } from '@nestjs/swagger';
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
-    @Post()
-    @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
-    async create(@Body() createUserDto: CreateUserDto) {
-        return await this.userService.create(createUserDto);
-    }
-
     @Get()
     @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
     findAll(@Query() getUsersDto: GetUsersDto) {
@@ -35,7 +29,13 @@ export class UserController {
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return this.userService.findOne(+id);
+        return this.userService.findByPk(+id);
+    }
+
+    @Post()
+    @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
+    async create(@Body() createUserDto: CreateUserDto) {
+        return await this.userService.create(createUserDto);
     }
 
     @Patch(':id')

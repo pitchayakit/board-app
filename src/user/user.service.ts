@@ -13,11 +13,6 @@ export class UserService {
         private userRepository: Repository<User>,
     ) {}
 
-    async create(createUserDto: CreateUserDto): Promise<User> {
-        const newUser = this.userRepository.create(createUserDto);
-        return this.userRepository.save(newUser);
-    }
-
     async findAllWithPagination(
         query: GetUsersDto,
     ): Promise<{ data: User[]; page: number; total: number }> {
@@ -35,8 +30,23 @@ export class UserService {
         };
     }
 
-    async findOne(id: number): Promise<User> {
+    async findAll(query: Partial<User>): Promise<User[]> {
+        return this.userRepository.find({
+            where: query,
+        });
+    }
+
+    async findByPk(id: number): Promise<User> {
         return this.userRepository.findOneBy({ id });
+    }
+
+    async findOne(query: Partial<User>): Promise<User> {
+        return this.userRepository.findOneBy(query);
+    }
+
+    async create(createUserDto: CreateUserDto): Promise<User> {
+        const newUser = this.userRepository.create(createUserDto);
+        return this.userRepository.save(newUser);
     }
 
     async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {

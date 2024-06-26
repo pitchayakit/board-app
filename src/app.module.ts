@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { PaginationModule } from './pagination/pagination.module';
+import { AuthModule } from './auth/auth.module';
 import typeorm from './config/typeorm';
 
 @Module({
@@ -20,6 +21,7 @@ import typeorm from './config/typeorm';
         }),
         UserModule,
         PaginationModule,
+        AuthModule,
     ],
     controllers: [AppController],
     providers: [AppService],
