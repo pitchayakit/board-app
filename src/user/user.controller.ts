@@ -32,6 +32,11 @@ export class UserController {
         return this.userService.findByPk(+id);
     }
 
+    @Get(':id/comments')
+    getUserComments(@Param('id') id: number) {
+        return this.userService.getComments(id);
+    }
+
     @Post()
     @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
     async create(@Body() createUserDto: CreateUserDto) {

@@ -1,5 +1,6 @@
 // src/user/user.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Comment } from '../comment/comment.entity/comment.entity';
 
 @Entity('users')
 export class User {
@@ -15,6 +16,6 @@ export class User {
     @Column()
     email: string;
 
-    @Column()
-    created_at: Date;
+    @OneToMany(() => Comment, (comment) => comment.user)
+    comments: Comment[];
 }

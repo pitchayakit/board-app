@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+import { Comment } from '../comment/comment.entity/comment.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { GetUsersDto } from './dto/get-users.dto';
@@ -11,6 +12,9 @@ export class UserService {
     constructor(
         @InjectRepository(User)
         private userRepository: Repository<User>,
+
+        @InjectRepository(Comment)
+        private commentRepository: Repository<Comment>,
     ) {}
 
     async findAllWithPagination(
@@ -74,5 +78,13 @@ export class UserService {
         } else {
             throw new Error('User not found');
         }
+    }
+
+    async getComments(id: number): Promise<Comment[]> {
+        const comments = await this.commentRepository.find({
+            where: { user: { id } },
+        });
+
+        return comments;
     }
 }
