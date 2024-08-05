@@ -17,5 +17,5 @@ export class User {
     email: string;
 
     @OneToMany(() => Comment, (comment) => comment.user)
-    comments: Comment[];
+    comments: Promise<Comment[]>;
 }

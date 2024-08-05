@@ -34,17 +34,11 @@ export class UserService {
         };
     }
 
-    async findAll(query: Partial<User>): Promise<User[]> {
-        return this.userRepository.find({
-            where: query,
-        });
-    }
-
     async findByPk(id: number): Promise<User> {
         return this.userRepository.findOneBy({ id });
     }
 
-    async findOne(query: Partial<User>): Promise<User> {
+    async findOne(query: object): Promise<User> {
         return this.userRepository.findOneBy(query);
     }
 
@@ -84,6 +78,17 @@ export class UserService {
         const comments = await this.commentRepository.find({
             where: { user: { id } },
         });
+
+        // For demonstration purposes, we will use the userAdapter method to get the comments
+        const user = await this.userRepository.findOneBy({ id });
+        await this.userAdapter(user);
+
+        return comments;
+    }
+
+    // This method is used to demonstrate how to use Adapter with lazy relations
+    async userAdapter(user: User): Promise<Comment[]> {
+        const comments = await user.comments;
 
         return comments;
     }
