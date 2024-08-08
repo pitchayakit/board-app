@@ -11,7 +11,7 @@ services:
 #         ports:
 #             - 3000:3000
     db:
-        container_name: db-server
+        container_name: postgres-db-server
         image: postgres
         restart: always
         environment:
@@ -27,27 +27,27 @@ services:
         ports:
         - 8080:8080
 
-    elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-        container_name: elasticsearch
-        environment:
-            - discovery.type=single-node
-            - ES_JAVA_OPTS=-Xms512m -Xmx512m
-        ulimits:
-            memlock:
-                soft: -1
-                hard: -1
-        volumes:
-            - es_data:/usr/share/elasticsearch/data
-        ports:
-            - 9200:9200
-            - 9300:9300
-    kibana:
-        image: docker.elastic.co/kibana/kibana:7.10.0
-        environment:
-            ELASTICSEARCH_URL: http://elasticsearch:9200
-        ports:
-            - "5601:5601"
+    # elasticsearch:
+    #     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    #     container_name: elasticsearch
+    #     environment:
+    #         - discovery.type=single-node
+    #         - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    #     ulimits:
+    #         memlock:
+    #             soft: -1
+    #             hard: -1
+    #     volumes:
+    #         - es_data:/usr/share/elasticsearch/data
+    #     ports:
+    #         - 9200:9200
+    #         - 9300:9300
+    # kibana:
+    #     image: docker.elastic.co/kibana/kibana:7.10.0
+    #     environment:
+    #         ELASTICSEARCH_URL: http://elasticsearch:9200
+    #     ports:
+    #         - "5601:5601"
 
 volumes:
     db_data:
