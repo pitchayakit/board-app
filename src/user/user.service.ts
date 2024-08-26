@@ -34,6 +34,10 @@ export class UserService {
         };
     }
 
+    async findAll(): Promise<User[]> {
+        return this.userRepository.find();
+    }
+
     async findByPk(id: number): Promise<User> {
         return this.userRepository.findOneBy({ id });
     }
